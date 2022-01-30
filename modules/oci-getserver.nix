@@ -1,4 +1,5 @@
 { config, pkgs, ... }:
+
 let
   oci-getserver = pkgs.callPackage ../oci { };
 in
@@ -41,7 +42,7 @@ in
     timers.oci-getserver = {
       wantedBy = [ "timers.target" ];
       partOf = [ "oci-getserver.service" ];
-      timerConfig.OnCalendar = "*:0/5";
+      timerConfig.OnCalendar = "*:0/15";
     };
   };
 }

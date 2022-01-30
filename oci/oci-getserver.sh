@@ -21,7 +21,9 @@ result=$(oci compute instance launch \
  --image-id $OCI_IMAGE_ID \
  --instance-options file://${MY_DIR}/instanceOptions.json \
  --shape-config file://${MY_DIR}/shapeConfig.json \
- --ssh-authorized-keys-file ${MY_DIR}/key.pub 2>&1 >/dev/null)
+ --ssh-authorized-keys-file ${MY_DIR}/key.pub \
+ --config-file $OCI_CONFIG \
+ 2>&1 >/dev/null)
 
 success="$?"
 

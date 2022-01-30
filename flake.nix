@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11;
+    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixpkgs-unstable;
     flake-utils-plus.url = github:gytis-ivaskevicius/flake-utils-plus;
     deploy-rs = {
       url = "github:serokell/deploy-rs";
@@ -24,6 +25,12 @@
       inherit self inputs nixosModules;
 
       channelsConfig.allowUnfree = true;
+
+      channels.nixpkgs.overlaysBuilder = channels: [
+        (final: prev: {
+          oci-cli = channels.nixpkgs-unstable.oci-cli;
+        })
+      ];
 
       hosts.cloud.modules = with self.nixosModules; [
         common

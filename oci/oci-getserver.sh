@@ -7,6 +7,8 @@ MY_DIR="$(dirname ${BASH_SOURCE})"
 OCI_AVAILABILITY_DOMAIN=vOMn:EU-MARSEILLE-1-AD-1
 OCI_IMAGE_ID=ocid1.image.oc1.eu-marseille-1.aaaaaaaaifl7xffzp2d5i2vkr26rwh66wa2egimkbqs2zrihuinw5u2iqssa
 
+echo "$(oci --version)"
+
 result=$(oci compute instance launch \
  --availability-domain $OCI_AVAILABILITY_DOMAIN \
  --compartment-id $OCI_COMPARTMENT_ID \

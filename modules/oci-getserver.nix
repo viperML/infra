@@ -21,6 +21,7 @@ in
       serviceConfig.Type = "oneshot";
       serviceConfig.ExecStart = "${oci-getserver}/oci-getserver.sh";
       serviceConfig.DynamicUser = true;
+      path = with pkgs; [ oci-cli bash ];
     };
   };
 }

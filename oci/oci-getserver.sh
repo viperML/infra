@@ -1,6 +1,4 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p bash oci-cli
-set -x
+#! /usr/bin/env bash
 set -u -o pipefail
 
 # https://hitrov.medium.com/resolving-oracle-cloud-out-of-capacity-issue-and-getting-free-vps-with-4-arm-cores-24gb-of-a3d7e6a027a8
@@ -21,12 +19,13 @@ result=$(oci compute instance launch \
  --image-id $OCI_IMAGE_ID \
  --instance-options file://${MY_DIR}/instanceOptions.json \
  --shape-config file://${MY_DIR}/shapeConfig.json \
- --ssh-authorized-keys-file ${HOME}/.ssh/id_ed25519.pub 2>&1)
+ --ssh-authorized-keys-file ${MY_DIR}/key.pub 2>&1 >/dev/null)
 
 success="$?"
 
 if [ $success -ne 0 ]; then
     echo "Failed to launch instance"
+    echo -e "$result"
     exit 0
 fi
 

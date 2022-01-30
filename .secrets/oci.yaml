@@ -1,0 +1,30 @@
+oci: ENC[AES256_GCM,data:LU1gJy38POHAK/d3wHS1CP22Mp3izx7SFBvJ2zGHoijh2PtVm/2ZBQcveJ/NGSXQ3v8gQAVRB5rcq3JavRYvLrf+sRuBfUbUQBsQTKYw8Nm8NnWzlJutxwpFE96KIyqIaJv508+O4ZmsaCUcp7AwFdAN5AdIhMPK34ZMYKV0G7Ty1UYGxGAOGHz+VnwccMhR3aGwSAQgPE1k5zvA185vsNctGqJA6aQo+cKUBSC/NF3TpIrHzr09zGafimMvVU4iboAyu2zAy9ycyL2hHQTy,iv:ud97KiyMwpsoMttPzecDntynltYjKrlEkxUxdiGgMLk=,tag:YHD9Xc22PjdvW4KoKvXPoA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age16ptmj3r8r2xuz0tkztftt5f65e2764gk7dt9kqz3427xr0s5cd0q3le0a8
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBxellJcWhPQmpQMzBQcFln
+            a1FDQWhkdzBBaVJYRW9hZE1NRkU4K2t3ZzF3ClNOUmVEMlFZSzF1WEY0VENkS25y
+            R25pbjlMRDhLUHQ2ckx0YURGZEdRemsKLS0tIEoyZ2ZEeFExU3pFeEVvNWkvRWFR
+            WC9TMzhHWmhTVDBxZU9IWXhXMlhSU1EKFdedb3kCM/C/lFACP9YEMiZi3YaDO+jt
+            c8GBZBcYAYUgFYezTg59r6bSRAOzjYrOsbNTvFMhDUko4SI/R62EGQ==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age12ew7ztetf7ju00ssp6673jgqpnrpa6hnvm58s92v3clk4msxtfcq7knj6j
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBmSWE1VEFkU2Rxbm9sMWdV
+            QjA5R2hpZElqMis3aUt2OENEcjdGNWFjU3cwCmlQNC9NQnJPWVBDMHpSZmRML2Zw
+            NGE3dCtud1c4VXVyTHdwUjB5a2ZTVkUKLS0tIGRObEc4Ky9KL00vQm1DNEdTMnVO
+            c0pVNmRkQS9RWnZhNFgrRFhEb0R1V3MK6eS7RQX+cv4wl9qVKcSNHiS9IV7AAzp0
+            mJa2aYsbEZb59rtKqQHfNcBWtQrAhf5gCzrfFs1kROlow+z3zgevaQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2022-01-30T09:02:57Z"
+    mac: ENC[AES256_GCM,data:gGZbHwmBsXW6UyvQBUR2+dpzCXKb1YfcpadMz///2Vt/i/FMxlZEZZMr6rVAip0kZTqd/nOzLhMdDvSrPmd6Gf7bz522/iSmeLYdIRNYoiPM3dGy+u7nm+qSBGD5kS/vkPIxWGo3wrtwORGo1CxgHghMk/ap+UIMCZA0wKeO9nU=,iv:F1gYUIUTyxD0IkbWOJhXjTq4FqBDYpBE0OaWhfNsi+0=,tag:F58XT6TQ4EJKF4zzLuixrg==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.7.1

@@ -42,7 +42,7 @@
         drone
         gitea
 
-        oci-getserver
+        # oci-getserver
       ];
 
       deploy.nodes.cloud = {

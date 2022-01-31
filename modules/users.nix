@@ -26,5 +26,4 @@
     };
   };
 
-  users.groups.docker.members = config.users.groups.wheel.members;
 }

@@ -5,3 +5,4 @@ result
 source
 .envrc
 .env
+nix.conf

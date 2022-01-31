@@ -45,14 +45,37 @@
         # oci-getserver
       ];
 
-      deploy.nodes.cloud = {
-        hostname = "foo.bar";
-        fastConnection = false;
-        profiles.system = {
-          sshUser = "admin";
-          path =
-            inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cloud;
-          user = "root";
+      hosts.oci = {
+        system = "aarch64-linux";
+        modules = with self.nixosModules; [
+          common
+          inputs.sops-nix.nixosModules.sops
+          sops
+          users
+          hardware-oci
+        ];
+      };
+
+      deploy.nodes = {
+        cloud = {
+          hostname = "foo.bar";
+          fastConnection = false;
+          profiles.system = {
+            sshUser = "admin";
+            path =
+              inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cloud;
+            user = "root";
+          };
+        };
+        oci = {
+          hostname = "foo.bar";
+          fastConnection = false;
+          profiles.system = {
+            sshUser = "admin";
+            path =
+              inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.oci;
+            user = "root";
+          };
         };
       };
 

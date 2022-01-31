@@ -32,26 +32,23 @@
         })
       ];
 
-      hosts.cloud.modules = with self.nixosModules; [
+      hostDefaults.modules = with self.nixosModules; [
         common
         users
-        hardware
         inputs.sops-nix.nixosModules.sops
         sops
+      ];
+
+      hosts.cloud.modules = with self.nixosModules; [
+        hardware-cloud
         services
         drone
         gitea
-
-        # oci-getserver
       ];
 
       hosts.oci = {
         system = "aarch64-linux";
         modules = with self.nixosModules; [
-          common
-          inputs.sops-nix.nixosModules.sops
-          sops
-          users
           hardware-oci
         ];
       };

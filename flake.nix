@@ -13,6 +13,11 @@
       url = github:Mic92/sops-nix;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    docker-skyfactory4 = {
+      url = github:viperML/docker-skyfactory4;
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils-plus.follows = "flake-utils-plus";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils-plus, ... }:
@@ -42,6 +47,7 @@
       hosts.cloud.modules = with self.nixosModules; [
         hardware-cloud
         services
+        docker
         drone
         gitea
       ];
@@ -50,6 +56,8 @@
         system = "aarch64-linux";
         modules = with self.nixosModules; [
           hardware-oci
+          docker
+          minecraft
         ];
       };
 

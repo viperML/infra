@@ -49,11 +49,6 @@ in
       fsType = "zfs";
     };
 
-    "/var/lib/docker" = {
-      device = "zroot/data/docker";
-      fsType = "zfs";
-    };
-
     "${config.services.gitea.stateDir}" = {
       device = "zroot/data/gitea";
       fsType = "zfs";

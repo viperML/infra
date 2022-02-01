@@ -42,58 +42,45 @@ in
       neededForBoot = true;
     };
 
-    # "/var/lib/postgres" = {
-    #   device = "zroot/data/postgres";
-    #   fsType = "zfs";
-    # };
+    "/var/lib/postgres" = {
+      device = "zroot/data/postgres";
+      fsType = "zfs";
+    };
 
-    # "/var/lib/acme" = {
-    #   device = "zroot/data/acme";
-    #   fsType = "zfs";
-    # };
-
-    # "/var/lib/docker" = {
-    #   device = "zroot/data/docker";
-    #   fsType = "zfs";
-    # };
-
-    # "${config.services.gitea.stateDir}" = {
-    #   device = "zroot/data/gitea";
-    #   fsType = "zfs";
-    # };
+    "/var/lib/acme" = {
+      device = "zroot/data/acme";
+      fsType = "zfs";
+    };
   };
 
-  # services.zfs.autoScrub = {
-  #   enable = true;
-  #   pools = [ "zroot" ];
-  #   interval = "weekly";
-  # };
+  services.zfs.autoScrub = {
+    enable = true;
+    pools = [ "zroot" ];
+    interval = "weekly";
+  };
 
-  # services.sanoid = {
-  #   enable = true;
-  #   templates = {
-  #     "normal" = {
-  #       "frequently" = 0;
-  #       "hourly" = 1;
-  #       "daily" = 1;
-  #       "monthly" = 4;
-  #       "yearly" = 0;
-  #       "autosnap" = true;
-  #       "autoprune" = true;
-  #     };
-  #   };
-  #   datasets = {
-  #     "zroot/secrets" = {
-  #       useTemplate = [ "normal" ];
-  #     };
-  #     "zroot/data/postgres" = {
-  #       useTemplate = [ "normal" ];
-  #     };
-  #     "zroot/data/gitea" = {
-  #       useTemplate = [ "normal" ];
-  #     };
-  #   };
-  # };
+  services.sanoid = {
+    enable = true;
+    templates = {
+      "normal" = {
+        "frequently" = 0;
+        "hourly" = 1;
+        "daily" = 1;
+        "monthly" = 4;
+        "yearly" = 0;
+        "autosnap" = true;
+        "autoprune" = true;
+      };
+    };
+    datasets = {
+      "zroot/secrets" = {
+        useTemplate = [ "normal" ];
+      };
+      "zroot/data/postgres" = {
+        useTemplate = [ "normal" ];
+      };
+    };
+  };
 
   # swapDevices = [
   #   { device = "/dev/zvol/zroot/swap"; }

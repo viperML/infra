@@ -22,6 +22,29 @@
         "type": "github"
       }
     },
+    "docker-skyfactory4": {
+      "inputs": {
+        "flake-utils-plus": [
+          "flake-utils-plus"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1643737302,
+        "narHash": "sha256-JkCMnI1tNNN2Cze+hNqvEvM6VFZOCZlfPSTL2dvS3gI=",
+        "owner": "viperML",
+        "repo": "docker-skyfactory4",
+        "rev": "3e8127aca031c2792323f9eec012e1dc8c24f8ae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "viperML",
+        "repo": "docker-skyfactory4",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -106,6 +129,7 @@
     "root": {
       "inputs": {
         "deploy-rs": "deploy-rs",
+        "docker-skyfactory4": "docker-skyfactory4",
         "flake-utils-plus": "flake-utils-plus",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",

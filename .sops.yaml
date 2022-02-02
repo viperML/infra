@@ -2,6 +2,7 @@ keys:
   - &host_cloud age16ptmj3r8r2xuz0tkztftt5f65e2764gk7dt9kqz3427xr0s5cd0q3le0a8
   - &admin_ayats age12ew7ztetf7ju00ssp6673jgqpnrpa6hnvm58s92v3clk4msxtfcq7knj6j
   - &host_oci age17rxuzpcmrzk3tupxgexrca2qw9h65kk9795k0xwc7th38kcfh5xqkqj5hw
+  - &host_raspi age173qr3hpdme0mtlr7eaknkxeqvh09rfethfl6zwmf6ccu0uatcdasqmmaq7
 creation_rules:
   - path_regex: .secrets/[^/]+\.yaml$
     key_groups:
@@ -9,3 +10,19 @@ creation_rules:
       - *host_cloud
       - *admin_ayats
       - *host_oci
+      - *host_raspi
+  - path_regex: .secrets/oci/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *admin_ayats
+      - *host_oci
+  - path_regex: .secrets/oci/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *admin_ayats
+      - *host_oci
+  - path_regex: .secrets/raspi/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *admin_ayats
+      - *host_raspi

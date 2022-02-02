@@ -6,3 +6,4 @@ source
 .envrc
 .env
 nix.conf
+*.img

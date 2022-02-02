@@ -18,6 +18,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils-plus.follows = "flake-utils-plus";
     };
+    nixos-generators = {
+      url = github:nix-community/nixos-generators;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils-plus, ... }:
@@ -61,6 +65,13 @@
         ];
       };
 
+      hosts.raspi = {
+        system = "aarch64-linux";
+        modules = with self.nixosModules; [
+          hardware-raspi
+        ];
+      };
+
       deploy.nodes = {
         cloud = {
           hostname = "foo.bar";
@@ -82,10 +93,22 @@
             user = "root";
           };
         };
+        raspi = {
+          hostname = "raspi";
+          fastConnection = true;
+          profiles.system = {
+            sshUser = "admin";
+            path =
+              inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.raspi;
+            user = "root";
+          };
+        };
       };
 
       outputsBuilder = (channels:
-        let pkgs = channels.nixpkgs; in
+        let
+          pkgs = channels.nixpkgs;
+        in
         {
           devShell = channels.nixpkgs.mkShell {
             name = "development-shell";
@@ -105,6 +128,20 @@
                 sops
               ];
           };
+
+          # raspi-image = inputs.nixos-generators.nixosGenerate {
+          #   pkgs = pkgs;
+          #   format = "sd-aarch64";
+          #   modules = with nixosModules;[
+          #     common
+          #     users
+          #     inputs.sops-nix.nixosModules.sops
+          #     sops
+          #     # {
+          #     #   _module.args.inputs = inputs;
+          #     # }
+          #   ];
+          # };
         });
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;

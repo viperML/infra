@@ -105,4 +105,10 @@ in
       canTouchEfiVariables = true;
     };
   };
+
+  sops.secrets.cache.sopsFile = ../.secrets/oci/cache.yaml;
+
+  nix.extraOptions = ''
+    secret-key-files = ${config.sops.secrets.cache.path}
+  '';
 }

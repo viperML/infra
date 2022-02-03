@@ -1,4 +1,4 @@
-{ config, pkgs, modulesPath, ... }:
+{ config, pkgs, modulesPath, lib, ... }:
 {
   imports = [
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
@@ -9,9 +9,4 @@
   };
 
   users.groups.networkmanager.members = config.users.groups.wheel.members;
-
-  extraModulePackages = with config.boot.kernelPackages; [
-    rtl8192eu # wifi dongle
-  ];
-  blacklistedKernelModules = [ "rtl8xxxu" ];
 }

@@ -56,15 +56,6 @@
         gitea
       ];
 
-      hosts.oci = {
-        system = "aarch64-linux";
-        modules = with self.nixosModules; [
-          hardware-oci
-          docker
-          minecraft
-        ];
-      };
-
       hosts.raspi = {
         system = "aarch64-linux";
         modules = with self.nixosModules; [
@@ -80,16 +71,6 @@
             sshUser = "admin";
             path =
               inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cloud;
-            user = "root";
-          };
-        };
-        oci = {
-          hostname = "foo.bar";
-          fastConnection = false;
-          profiles.system = {
-            sshUser = "admin";
-            path =
-              inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.oci;
             user = "root";
           };
         };
@@ -128,20 +109,6 @@
                 sops
               ];
           };
-
-          # raspi-image = inputs.nixos-generators.nixosGenerate {
-          #   pkgs = pkgs;
-          #   format = "sd-aarch64";
-          #   modules = with nixosModules;[
-          #     common
-          #     users
-          #     inputs.sops-nix.nixosModules.sops
-          #     sops
-          #     # {
-          #     #   _module.args.inputs = inputs;
-          #     # }
-          #   ];
-          # };
         });
 
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;

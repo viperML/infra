@@ -10,23 +10,6 @@ in
   };
   users.groups.oci-getserver = { };
 
-  sops.secrets = {
-    oci = {
-      sopsFile = ../.secrets/oci.yaml;
-    };
-    sendmail = {
-      sopsFile = ../.secrets/sendmail.yaml;
-    };
-    oci_config = {
-      sopsFile = ../.secrets/oci.yaml;
-      owner = "oci-getserver";
-    };
-    oci_pem = {
-      sopsFile = ../.secrets/oci.yaml;
-      owner = "oci-getserver";
-    };
-  };
-
   systemd = {
     services.oci-getserver = {
       serviceConfig.EnvironmentFile = [

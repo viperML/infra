@@ -4,16 +4,13 @@
     "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
 
-  networking.networkmanager = {
-    enable = true;
-  };
-
+  networking.networkmanager.enable = true;
+  networking.firewall.enable = false;
   users.groups.networkmanager.members = config.users.groups.wheel.members;
 
-  # nixpkgs.config.allowBroken = true;
-  # boot = {
-  #   extraModulePackages = with config.boot.kernelPackages; [
-  #     rtl8192eu
-  #   ];
-  # };
+  services = {
+    avahi.enable = true;
+    avahi.nssmdns = true;
+  };
+
 }

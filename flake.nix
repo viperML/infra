@@ -61,6 +61,7 @@
         system = "aarch64-linux";
         modules = with self.nixosModules; [
           hardware-raspi
+          octoprint
         ];
       };
 

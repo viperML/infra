@@ -89,6 +89,7 @@ in
   users.users.drone-runner-exec = {
     isSystemUser = true;
     group = "drone-runner-exec";
+    home = "/var/drone-runner/exec";
   };
   users.groups.drone-runner-exec = { };
 
@@ -142,6 +143,7 @@ in
         "/etc/resolv.conf"
         # channels are dynamic paths in the nix store, therefore we need to bind mount the whole thing
         "/nix/"
+        "/usr"
       ];
       EnvironmentFile = [
         config.sops.secrets.drone.path

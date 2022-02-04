@@ -1,4 +1,5 @@
 { config, pkgs, modulesPath, ... }:
+# https://dataswamp.org/~solene/2022-01-13-nixos-hardened.html
 {
   imports = [ "${modulesPath}/profiles/hardened.nix" ];
 

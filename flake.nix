@@ -46,7 +46,7 @@
         users
         inputs.sops-nix.nixosModules.sops
         sops
-        hardened
+        # hardened
       ];
 
       hosts.cloud.modules = with self.nixosModules; [

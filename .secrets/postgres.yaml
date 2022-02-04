@@ -1,0 +1,31 @@
+postgres:
+    gitea_dbpass: ENC[AES256_GCM,data:o6pElo3GH4RV6Y9eN/2f+pYP0t1V8Zhz,iv:gGixi9V8Ny+n5CPVKGJnN/Xr1ZsYBpplXK3rDgNwzlU=,tag:D5kCH6hG/GALWFY/vxQq7g==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age16ptmj3r8r2xuz0tkztftt5f65e2764gk7dt9kqz3427xr0s5cd0q3le0a8
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB4bFNxQlpRbFhITDY1M0Uy
+            M1AzcW5JaWNQemZhYTZNVzZzZ21DZUUvU2pnClNsNVNiY1dUcFdIaDdwM1ZiS2Rs
+            VU5keWFLWjJOdnlzaE5EaDVTK29SV3cKLS0tIEszQ3UwWHVGYnFUNWgwNWVITEJ1
+            RnpxU25UamFPbnVPVUZOZVNpUUpzTFkKdig7L6sAuS1g3wzV87WjZrihj4ejXggu
+            Zq9YealwVefFxxbm5DnekKQMkoZRlF4/gLpGRVDYffbj2AyE//1Qqg==
+            -----END AGE ENCRYPTED FILE-----
+        - recipient: age12ew7ztetf7ju00ssp6673jgqpnrpa6hnvm58s92v3clk4msxtfcq7knj6j
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBhdUZxV2ZKOHppV1JGdzNy
+            MStjV3U0a09LSVhsYkNNYVMvYWFOaVllYVdZCjRORDdQRENWLytFWE5LOGVqdE5C
+            OWtKR2EySWs3Z0w3cHhMYTdMbUV6NVUKLS0tIGFvRmcxRzBlYmMwNnlRcmtYVmZw
+            RUJ3UW4rZCtJZHFVekdVUmE5TnpXbFEKSXGsyKWQGOLP5i/9jChf2vUTtl8t9YqS
+            7u37z9kW4OXQidNeFDjt1NiD0AZO1bmIJwL/PwyBUAoAiv7XNq0QJA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2022-01-24T13:32:20Z"
+    mac: ENC[AES256_GCM,data:KpD8j6SDxDwFVnJeEQ64CSCiLJ3RFMi6ybDLUpbXcZpCgy14RpxP+5E96PHG9RJXU3ITv7gDONmNnrOo9tnVvqnDSIGW4/3pKzWJsiOVycVUrSkC3A9kr/CmqnpQWncz21/gTNgOaDzTpu+zjZprUdx7piOC7N7WW4ohxsSsGLA=,iv:qBrGScyamhdgYqP7mRu0PrUeU6TYS1gzoND6AI0qXLU=,tag:wCF+7yYmD/n1IxnibkceAA==,type:str]
+    pgp: []
+    unencrypted_suffix: _unencrypted
+    version: 3.7.1

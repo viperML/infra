@@ -65,7 +65,7 @@
 
       deploy.nodes = {
         cloud = {
-          hostname = "foo.bar";
+          hostname = "cloud";
           fastConnection = false;
           profiles.system = {
             sshUser = "admin";

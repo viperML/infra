@@ -9,4 +9,11 @@
   };
 
   users.groups.networkmanager.members = config.users.groups.wheel.members;
+
+  # nixpkgs.config.allowBroken = true;
+  # boot = {
+  #   extraModulePackages = with config.boot.kernelPackages; [
+  #     rtl8192eu
+  #   ];
+  # };
 }

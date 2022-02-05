@@ -3,10 +3,11 @@
   services = {
     octoprint = {
       enable = true;
+      plugins = (plugins: with plugins; [
+        telegram
+      ]);
     };
 
-    mjpg-streamer = {
-      enable = true;
-    };
+    mjpg-streamer.enable = true;
   };
 }

@@ -4,7 +4,7 @@
     enable = true;
     enableOnBoot = true;
     storageDriver = "zfs";
-    extraOptions = "--registry-mirror=https://mirror.gcr.io --add-runtime crun=${pkgs.crun}/bin/crun --default-runtime=crun";
+    extraOptions = "--registry-mirror=https://mirror.gcr.io";
   };
 
   users.groups.docker.members = config.users.groups.wheel.members;

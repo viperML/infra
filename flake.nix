@@ -55,15 +55,16 @@
         docker
         drone
         gitea
+        autoUpgrade
       ];
 
-      hosts.raspi = {
-        system = "aarch64-linux";
-        modules = with self.nixosModules; [
-          hardware-raspi
-          octoprint
-        ];
-      };
+      # hosts.raspi = {
+      #   system = "aarch64-linux";
+      #   modules = with self.nixosModules; [
+      #     hardware-raspi
+      #     octoprint
+      #   ];
+      # };
 
       deploy.nodes = {
         cloud = {
@@ -76,16 +77,16 @@
             user = "root";
           };
         };
-        raspi = {
-          hostname = "raspi";
-          fastConnection = true;
-          profiles.system = {
-            sshUser = "admin";
-            path =
-              inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.raspi;
-            user = "root";
-          };
-        };
+        # raspi = {
+        #   hostname = "raspi";
+        #   fastConnection = true;
+        #   profiles.system = {
+        #     sshUser = "admin";
+        #     path =
+        #       inputs.deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.raspi;
+        #     user = "root";
+        #   };
+        # };
       };
 
       outputsBuilder = (channels:
@@ -106,7 +107,6 @@
               in
               with pkgs; [
                 make-vm
-                inputs.deploy-rs.packages.${system}.deploy-rs
                 age
                 sops
               ];

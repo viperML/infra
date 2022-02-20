@@ -97,7 +97,8 @@ in
   systemd.services.drone-runner-exec = {
     enable = true;
     wantedBy = [ "multi-user.target" ];
-    ### MANUALLY RESTART SERVICE IF CHANGED
+    # Updates would restart the service
+    # Schedule accordingly
     restartIfChanged = true;
     confinement.enable = true;
     confinement.packages = [
@@ -141,7 +142,6 @@ in
         ''}:/etc/ssh/ssh_config"
         "/etc/machine-id"
         "/etc/resolv.conf"
-        # channels are dynamic paths in the nix store, therefore we need to bind mount the whole thing
         "/nix/"
         "/usr"
       ];

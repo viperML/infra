@@ -91,6 +91,8 @@ in
     { device = "/dev/zvol/zroot/swap"; }
   ];
 
+  sops.age.keyFile = "/secrets/age/keys.txt";
+
   boot = {
     initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
     loader.grub = {

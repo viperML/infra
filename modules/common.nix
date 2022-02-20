@@ -2,7 +2,7 @@
 {
   time.timeZone = "UTC";
   system.stateVersion = "21.11";
-  system.configurationRevision = (if inputs.self ? rev then inputs.self.rev else null);
+  system.configurationRevision = inputs.self.rev or null;
 
   environment.systemPackages = with pkgs; [
     fup-repl
@@ -10,7 +10,6 @@
     htop
   ];
 
-  sops.age.keyFile = "/secrets/age/keys.txt";
 
   nix = {
     package = pkgs.nixFlakes;

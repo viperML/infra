@@ -62,7 +62,7 @@
           profiles.system = {
             sshUser = "admin";
             path =
-              inputs.deploy-rs.lib.${self.nixosConfigurations.cloud.system}.activate.nixos self.nixosConfigurations.cloud;
+              inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cloud;
             user = "root";
           };
         };

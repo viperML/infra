@@ -2,6 +2,8 @@ name: "Flake update"
 
 on:
   workflow_dispatch:
+  schedule:
+  - cron: "*-*-01 00:00:00"
 
 jobs:
   main:

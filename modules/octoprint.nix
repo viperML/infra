@@ -10,4 +10,5 @@
 
     mjpg-streamer.enable = true;
   };
+
 }

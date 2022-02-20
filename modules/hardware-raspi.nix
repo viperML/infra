@@ -11,6 +11,6 @@
   services = {
     avahi.enable = true;
     avahi.nssmdns = true;
+    avahi.publish.enable = true;
   };
-
 }

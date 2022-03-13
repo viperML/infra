@@ -65,7 +65,7 @@
       };
     };
 
-    devShell = genAttrs supportedSystems (
+    devShells = genAttrs supportedSystems (
       system: let
         pkgs = self.legacyPackages.${system};
         pre-commit = pkgs.writeShellScript "pre-commit" ''
@@ -73,8 +73,9 @@
           nix flake check
           git add .
         '';
-      in
-        pkgs.mkShell {
+      in {
+        default = pkgs.mkShell {
+          name = "development-shell";
           packages = attrValues {
             inherit
               (self.legacyPackages.${system})
@@ -87,13 +88,17 @@
           shellHook = ''
             ln -sf ${pre-commit.outPath} .git/hooks/pre-commit
           '';
-        }
+        };
+      }
     );
 
     legacyPackages = genAttrs supportedSystems (
       system:
         import inputs.nixpkgs {
           inherit system config;
+          overlays = [
+            (import ./overlay.nix)
+          ];
         }
     );
   };

@@ -20,6 +20,7 @@ in {
     forceSSL = true; # Force SSL
     locations."/".proxyPass = "http://localhost:3030/";
   };
+  security.acme.certs."drone.ayats.org".email = "ayatsfer@gmail.com";
 
   services.postgresql = {
     ensureDatabases = [droneserver];

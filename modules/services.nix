@@ -18,14 +18,7 @@
     recommendedTlsSettings = true;
   };
 
-  security.acme = {
-    acceptTerms = true;
-    certs = {
-      "git.ayats.org".email = "ayatsfer@gmail.com";
-      "drone.ayats.org".email = "ayatsfer@gmail.com";
-      "searx.ayats.org".email = "ayatsfer@gmail.com";
-    };
-  };
+  security.acme.acceptTerms = true;
 
   services.postgresql = {
     enable = true;

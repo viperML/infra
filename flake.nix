@@ -53,6 +53,7 @@
           drone
           gitea
           autoUpgrade
+          searx
         ];
       };
 

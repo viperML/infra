@@ -3,6 +3,5 @@ result
 .direnv
 *.qcow2
 source
-.env
 nix.conf
 *.img

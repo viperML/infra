@@ -23,7 +23,7 @@ in {
       search = {
         autocomplete = "duckduckgo";
       };
-      engines = lib.mkForce (
+      engines =
         [
           {
             name = "brave";
@@ -43,8 +43,7 @@ in {
             inherit name;
             tokens = ["@SEARX_DUMMY_TOKEN@"];
           })
-          engines.hidden)
-      );
+          engines.hidden);
     };
   };
 

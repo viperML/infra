@@ -1,16 +1,19 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 # https://github.com/Mic92/dotfiles/blob/c71efec4ecbc8d5eb207b247cec2a8c435a06d6c/nixos/eve/modules/drone/server.nix
 # https://docs.drone.io/server/provider/gitea/
 let
   droneserver = config.users.users.droneserver.name;
-in
-{
+in {
   users.users.droneserver = {
     isSystemUser = true;
     createHome = true;
     group = droneserver;
   };
-  users.groups.droneserver = { };
+  users.groups.droneserver = {};
 
   services.nginx.virtualHosts."drone.ayats.org" = {
     enableACME = true; # Use ACME certs
@@ -19,13 +22,15 @@ in
   };
 
   services.postgresql = {
-    ensureDatabases = [ droneserver ];
-    ensureUsers = [{
-      name = droneserver;
-      ensurePermissions = {
-        "DATABASE ${droneserver}" = "ALL PRIVILEGES";
-      };
-    }];
+    ensureDatabases = [droneserver];
+    ensureUsers = [
+      {
+        name = droneserver;
+        ensurePermissions = {
+          "DATABASE ${droneserver}" = "ALL PRIVILEGES";
+        };
+      }
+    ];
   };
 
   sops.secrets.drone = {
@@ -34,7 +39,7 @@ in
   };
 
   systemd.services.drone-server = {
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
     serviceConfig = {
       EnvironmentFile = [
         config.sops.secrets.drone.path
@@ -61,12 +66,12 @@ in
     isSystemUser = true;
     group = "drone-runner-docker";
   };
-  users.groups.drone-runner-docker = { };
+  users.groups.drone-runner-docker = {};
 
-  users.groups.docker.members = [ "drone-runner-docker" ];
+  users.groups.docker.members = ["drone-runner-docker"];
   systemd.services.drone-runner-docker = {
     enable = true;
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
     ### MANUALLY RESTART SERVICE IF CHANGED
     restartIfChanged = false;
     serviceConfig = {
@@ -91,12 +96,12 @@ in
     group = "drone-runner-exec";
     home = "/var/drone-runner/exec";
   };
-  users.groups.drone-runner-exec = { };
+  users.groups.drone-runner-exec = {};
 
-  nix.allowedUsers = [ "drone-runner-exec" ];
+  nix.allowedUsers = ["drone-runner-exec"];
   systemd.services.drone-runner-exec = {
     enable = true;
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
     # Updates would restart the service
     # Schedule accordingly
     restartIfChanged = true;

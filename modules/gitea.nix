@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 # https://mcwhirter.com.au/craige/blog/2019/Deploying_Gitea_on_NixOS/
 {
   services.nginx.virtualHosts."git.ayats.org" = {
@@ -13,7 +17,8 @@
     authentication = ''
       local gitea all ident map=gitea-users
     '';
-    identMap = # Map the gitea user to postgresql
+    identMap =
+      # Map the gitea user to postgresql
       ''
         gitea-users gitea gitea
       '';

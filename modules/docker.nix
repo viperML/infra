@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
@@ -11,8 +14,8 @@
 
   systemd = {
     timers.docker-prune = {
-      wantedBy = [ "timers.target" ];
-      partOf = [ "docker-prune.service" ];
+      wantedBy = ["timers.target"];
+      partOf = ["docker-prune.service"];
       timerConfig.OnCalendar = "*-*-* 2:00:00";
     };
     services.docker-prune = {
@@ -20,7 +23,7 @@
       script = ''
         ${pkgs.docker}/bin/docker image prune --filter "until=72h"
       '';
-      requires = [ "docker.service" ];
+      requires = ["docker.service"];
     };
   };
 

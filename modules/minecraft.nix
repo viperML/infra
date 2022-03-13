@@ -1,8 +1,11 @@
-{ config, pkgs, inputs, ... }:
-let
-  minecraft-dir = "/var/lib/minecraft";
-in
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: let
+  minecraft-dir = "/var/lib/minecraft";
+in {
   virtualisation.oci-containers.containers.minecraft = {
     image = "viperml/skyfactory-4";
     imageFile = inputs.docker-skyfactory4.packages.${pkgs.system}.docker-image;
@@ -22,7 +25,7 @@ in
   };
 
   networking.firewall = {
-    allowedUDPPorts = [ 25565 ];
-    allowedTCPPorts = [ 25565 25575 ];
+    allowedUDPPorts = [25565];
+    allowedTCPPorts = [25565 25575];
   };
 }

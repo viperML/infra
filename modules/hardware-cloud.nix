@@ -1,9 +1,12 @@
-{ config, pkgs, modulesPath, ... }:
-let
+{
+  config,
+  pkgs,
+  modulesPath,
+  ...
+}: let
   my-net-interface = "enp1s0";
   my-disk = "/dev/sda";
-in
-{
+in {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
@@ -57,7 +60,7 @@ in
 
   services.zfs.autoScrub = {
     enable = true;
-    pools = [ "zroot" ];
+    pools = ["zroot"];
     interval = "weekly";
   };
 
@@ -76,25 +79,25 @@ in
     };
     datasets = {
       "zroot/secrets" = {
-        useTemplate = [ "normal" ];
+        useTemplate = ["normal"];
       };
       "zroot/data/postgres" = {
-        useTemplate = [ "normal" ];
+        useTemplate = ["normal"];
       };
       "zroot/data/gitea" = {
-        useTemplate = [ "normal" ];
+        useTemplate = ["normal"];
       };
     };
   };
 
   swapDevices = [
-    { device = "/dev/zvol/zroot/swap"; }
+    {device = "/dev/zvol/zroot/swap";}
   ];
 
   sops.age.keyFile = "/secrets/age/keys.txt";
 
   boot = {
-    initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
+    initrd.availableKernelModules = ["ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod"];
     loader.grub = {
       enable = true;
       device = my-disk;

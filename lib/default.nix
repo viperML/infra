@@ -1,5 +1,4 @@
-{ lib }:
-let
+{lib}: let
   genAttrs' = func: values: builtins.listToAttrs (map func values);
 
   removeSuffix = suffix: str: let

@@ -1,10 +1,14 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   networking.firewall.allowedTCPPorts = [
-    80 443
+    80
+    443
   ];
 
-  services.fail2ban = { enable = true; };
+  services.fail2ban = {enable = true;};
 
   services.nginx = {
     enable = true;
@@ -37,8 +41,8 @@
 
   systemd = {
     timers.docker-prune = {
-      wantedBy = [ "timers.target" ];
-      partOf = [ "docker-prune.service" ];
+      wantedBy = ["timers.target"];
+      partOf = ["docker-prune.service"];
       timerConfig.OnCalendar = "*-*-* 2:00:00";
     };
     services.docker-prune = {
@@ -46,7 +50,7 @@
       script = ''
         ${pkgs.docker}/bin/docker image prune --filter "until=72h"
       '';
-      requires = [ "docker.service" ];
+      requires = ["docker.service"];
     };
   };
 }

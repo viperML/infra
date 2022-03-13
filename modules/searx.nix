@@ -26,7 +26,7 @@ in {
     enableACME = true;
     forceSSL = true;
     locations."/" = {
-      proxyPass = "http://localhost:${localPort}/";
+      proxyPass = "http://localhost:${builtins.toString localPort}/";
     };
   };
 

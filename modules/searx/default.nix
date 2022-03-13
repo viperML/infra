@@ -4,49 +4,27 @@
   lib,
   ...
 }: let
-  localPort = 8001;
-  disabledEngines = [
-    "wikipedia"
-    "archive is"
-    "bing"
-    "currency"
-    "ddg definitions"
-    "erowid"
-    "wikidata"
-    "etools"
-    "etymonline"
-    "gigablast"
-    "library genesis"
-    "qwant"
-    "yahoo"
-    "wiby"
-    "wikibooks"
-    "wikiquote"
-    "wikisource"
-    "wiktionary"
-    "wikiversity"
-    "wikivoyage"
-    "dictzone"
-    "mymemory translated"
-    "duden"
-    "seznam"
-    "mojeek"
-    "naver"
-  ];
+  inherit (builtins) toString;
+  ports = {
+    searx = 8001;
+    oauth2 = 8002;
+  };
+  engines = import ./engines.nix;
 in {
   services.searx = {
     enable = true;
     environmentFile = config.sops.secrets.searx.path;
     settings = {
       server = {
-        port = localPort;
-        bind_address = "0.0.0.0";
+        port = ports.searx;
+        bind_address = "127.0.0.1";
         secret_key = "@SEARX_SECRET_KEY@";
       };
       search = {
         autocomplete = "duckduckgo";
       };
-      engines = lib.mkForce ([
+      engines = lib.mkForce (
+        [
           {
             name = "brave";
             shortcut = "brave";
@@ -58,26 +36,41 @@ in {
             content_xpath = ''//p[1][@class="snippet-description"]'';
             suggestion_xpath = ''/div[@class="text-gray h6"]/a'';
             categories = "general";
+            disabled = false;
           }
         ]
         ++ (map (name: {
             inherit name;
             tokens = ["@SEARX_DUMMY_TOKEN@"];
           })
-          disabledEngines));
+          engines.hidden)
+      );
     };
+  };
+
+  users.users.oauth2_proxy.group = "oauth2_proxy";
+  users.groups.oauth2_proxy = {};
+
+  services.oauth2_proxy = {
+    enable = true;
+    httpAddress = "http://127.0.0.1:${toString ports.oauth2}";
+    upstream = "http://127.0.0.1:${toString ports.searx}";
+    provider = "github";
+    clientID = "11fc65f8a8bb6b81f791";
+    keyFile = config.sops.secrets.searx.path;
+    email.domains = ["gmail.com"];
   };
 
   services.nginx.virtualHosts."searx.ayats.org" = {
     enableACME = true;
     forceSSL = true;
     locations."/" = {
-      proxyPass = "http://localhost:${builtins.toString localPort}/";
+      proxyPass = "http://localhost:${toString ports.oauth2}/";
     };
   };
   security.acme.certs."searx.ayats.org".email = "ayatsfer@gmail.com";
 
   sops.secrets.searx = {
-    sopsFile = ../.secrets/searx.yaml;
+    sopsFile = ../../.secrets/searx.yaml;
   };
 }

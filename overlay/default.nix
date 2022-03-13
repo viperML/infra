@@ -1,14 +1,7 @@
 final: prev: let
   inherit (prev) callPackage fetchFromGitHub;
+  my-httpx-socks = prev.python3Packages.callPackage ./httpx-socks.nix {};
 in {
-  python3 = prev.python3.override {
-    packageOverrides = python3-final: python3-prev: {
-      httpx-socks = python3-prev.httpx-socks.overrideAttrs (prevAttrs: {
-        doCheck = false;
-      });
-    };
-  };
-
   searx = prev.searx.overrideAttrs (prevAttrs: {
     version = "unstable-2022-03-05";
     src = fetchFromGitHub {
@@ -24,7 +17,7 @@ in {
         uvloop
         setproctitle
         httpx
-        httpx-socks
+        my-httpx-socks
       ]);
   });
 }

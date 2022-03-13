@@ -97,7 +97,7 @@
         import inputs.nixpkgs {
           inherit system config;
           overlays = [
-            (import ./overlay.nix)
+            (import ./overlay)
           ];
         }
     );

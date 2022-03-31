@@ -47,4 +47,6 @@
       requires = ["docker.service"];
     };
   };
+
+  services.tailscale.enable = true;
 }

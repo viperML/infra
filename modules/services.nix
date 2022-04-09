@@ -49,4 +49,14 @@
   };
 
   services.tailscale.enable = true;
+
+  services.openssh = {
+    enable = true;
+    listenAddresses = [
+      {
+        addr = "100.92.179.121";
+        port = 22;
+      }
+    ];
+  };
 }

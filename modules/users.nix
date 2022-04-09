@@ -16,7 +16,6 @@
   };
   security.sudo.wheelNeedsPassword = false;
   nix.trustedUsers = ["@wheel"]; # https://github.com/serokell/deploy-rs/issues/25
-  services.openssh = {enable = true;};
 
   sops = {
     secrets."password/root" = {

@@ -13,4 +13,15 @@
     fish
     htop
   ];
+
+  nix = {
+    package =
+      if lib.versionAtLeast pkgs.nix.version pkgs.nix_2_4.version
+      then pkgs.nix
+      else pkgs.nix_2_4;
+
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 }

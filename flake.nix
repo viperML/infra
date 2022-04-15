@@ -19,6 +19,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-flakes = {
+      url = "github:viperML/nixos-flakes";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-compat.follows = "flake-compat";
+    };
   };
 
   outputs = inputs @ {self, ...}: let
@@ -39,10 +44,9 @@
       };
       modules = with self.nixosModules; [
         common
-        channels-to-flakes
+        inputs.nixos-flakes.nixosModules.channels-to-flakes
         users
         inputs.sops-nix.nixosModules.sops
-        sops
         hardware-cloud
 
         services
@@ -65,32 +69,30 @@
       };
     };
 
-    devShells = genAttrs supportedSystems (
-      system: let
-        pkgs = self.legacyPackages.${system};
-        pre-commit = pkgs.writeShellScript "pre-commit" ''
-          find . -name \*.nix -not -name deps.nix -exec alejandra {} \;
-          nix flake check
-          git add .
-        '';
-      in {
-        default = pkgs.mkShell {
-          name = "development-shell";
-          packages = attrValues {
-            inherit
-              (self.legacyPackages.${system})
-              sops
-              age
-              ;
-            inherit (inputs.deploy-rs.packages.${system}) deploy-rs;
-            inherit (inputs.nixpkgs-unstable.legacyPackages.${system}) alejandra;
-          };
-          shellHook = ''
-            ln -sf ${pre-commit.outPath} .git/hooks/pre-commit
-          '';
+    devShells."x86_64-linux".default = let
+      system = "x86_64-linux";
+      pkgs = self.legacyPackages.${system};
+      pre-commit = pkgs.writeShellScript "pre-commit" ''
+        find . -name \*.nix -not -name deps.nix -exec alejandra {} \;
+        nix flake check
+        git add .
+      '';
+    in
+      pkgs.mkShell {
+        name = "development-shell";
+        packages = attrValues {
+          inherit
+            (self.legacyPackages.${system})
+            sops
+            age
+            ;
+          inherit (inputs.deploy-rs.packages.${system}) deploy-rs;
+          inherit (inputs.nixpkgs-unstable.legacyPackages.${system}) alejandra;
         };
-      }
-    );
+        shellHook = ''
+          ln -sf ${pre-commit.outPath} .git/hooks/pre-commit
+        '';
+      };
 
     legacyPackages = genAttrs supportedSystems (
       system:

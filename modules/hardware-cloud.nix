@@ -18,6 +18,7 @@ in {
     interfaces.${my-net-interface} = {
       useDHCP = true;
     };
+    hostName = "cloud";
   };
 
   fileSystems = {

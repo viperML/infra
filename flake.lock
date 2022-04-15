@@ -57,6 +57,51 @@
         "type": "github"
       }
     },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixos-flakes",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1647821523,
+        "narHash": "sha256-NAIY357pAOcxK6bAt83kKEJ2LxZhLCiPIlmQ2iTQbk4=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "835797f3a4a59459a316ae8d4ab91fa59faf61a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixos-flakes": {
+      "inputs": {
+        "flake-compat": [
+          "flake-compat"
+        ],
+        "home-manager": "home-manager",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1648202570,
+        "narHash": "sha256-dhInfIO4Vv7O14DOenuSDGTL40GPlqyN6R3E1oda2so=",
+        "owner": "viperML",
+        "repo": "nixos-flakes",
+        "rev": "201bf2e78ab69ce7db6ef7a5409f99719e462ed4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "viperML",
+        "repo": "nixos-flakes",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1646933238,
@@ -94,6 +139,7 @@
         "deploy-rs": "deploy-rs",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
+        "nixos-flakes": "nixos-flakes",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix"

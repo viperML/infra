@@ -33,28 +33,23 @@
     };
     inherit (inputs.nixpkgs.lib) genAttrs attrValues;
   in {
-    lib = import ./lib {inherit (inputs.nixpkgs) lib;};
-    nixosModules = self.lib.exportModulesDir ./modules;
-
     nixosConfigurations.cloud = inputs.nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        pkgs = self.legacyPackages.${system};
-      };
-      modules = with self.nixosModules; [
-        common
+      pkgs = self.legacyPackages.${system};
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./modules/common.nix
         inputs.nixos-flakes.nixosModules.channels-to-flakes
-        users
+        ./modules/users.nix
         inputs.sops-nix.nixosModules.sops
-        hardware-cloud
+        ./modules/hardware-cloud.nix
 
-        services
-        docker
-        drone
-        gitea
-        autoUpgrade
-        searx
+        ./modules/services.nix
+        ./modules/docker.nix
+        ./modules/drone.nix
+        ./modules/gitea.nix
+        ./modules/autoUpgrade.nix
+        ./modules/searx
       ];
     };
 
@@ -82,7 +77,7 @@
         name = "development-shell";
         packages = attrValues {
           inherit
-            (self.legacyPackages.${system})
+            (pkgs)
             sops
             age
             ;

@@ -86,7 +86,11 @@
       })
       // {
         inherit (inputs.deploy-rs.packages.${system}) deploy-rs;
-        inherit (inputs.nixpkgs-unstable.legacyPackages.${system}) alejandra;
+        inherit
+          (inputs.nixpkgs-unstable.legacyPackages.${system})
+          alejandra
+          treefmt
+          ;
       });
   };
 }

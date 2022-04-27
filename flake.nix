@@ -29,6 +29,7 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    deploy-rs,
     ...
   }: let
     supportedSystems = ["x86_64-linux"];
@@ -66,10 +67,12 @@
       profiles.system = {
         sshUser = "admin";
         path =
-          inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cloud;
+          deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cloud;
         user = "root";
       };
     };
+
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     devShells = genSystems (system: {
       default = import ./shell.nix {
@@ -85,7 +88,7 @@
         # ];
       })
       // {
-        inherit (inputs.deploy-rs.packages.${system}) deploy-rs;
+        inherit (deploy-rs.packages.${system}) deploy-rs;
         inherit
           (inputs.nixpkgs-unstable.legacyPackages.${system})
           alejandra

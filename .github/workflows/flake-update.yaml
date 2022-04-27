@@ -4,21 +4,24 @@ name: "flake-update"
 
 on:
   workflow_dispatch:
-  # TODO
-  # schedule:
-  # - cron: '00 02 1 * *'
+  schedule:
+  - cron: '00 02 1 * *'
 
 jobs:
   bump_lock:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      name: Clone repository
     - uses: cachix/install-nix-action@v17
+      name: Install Nix
       with:
         install_url: https://releases.nixos.org/nix/nix-2.8.0/install
         extra_nix_config: |
           experimental-features = nix-command flakes
           auto-optimise-store = true
+          extra-substituters = https://viperml.cachix.org
+          extra-trusted-public-keys = viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8=
           extra-substituters = https://nix-community.cachix.org
           extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
     - run: nix flake update
@@ -28,3 +31,53 @@ jobs:
       with:
         name: flake_lock
         path: flake.lock
+
+  cache:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      name: Clone repository
+    - uses: cachix/install-nix-action@v17
+      name: Install Nix
+      with:
+        install_url: https://releases.nixos.org/nix/nix-2.8.0/install
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+          auto-optimise-store = true
+          extra-substituters = https://viperml.cachix.org
+          extra-trusted-public-keys = viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8=
+          extra-substituters = https://nix-community.cachix.org
+          extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
+    - name: Set up cachix
+      uses: cachix/cachix-action@master
+      with:
+        name: viperml
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - name: Restore lockfile
+      uses: actions/download-artifact@v3
+      with:
+        name: flake_lock
+    - run: nix build .#devShells.x86_64-linux.default.inputDerivation
+
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      name: Clone repository
+    - uses: cachix/install-nix-action@v17
+      name: Install Nix
+      with:
+        install_url: https://releases.nixos.org/nix/nix-2.8.0/install
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+          auto-optimise-store = true
+          extra-substituters = https://viperml.cachix.org
+          extra-trusted-public-keys = viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8=
+          extra-substituters = https://nix-community.cachix.org
+          extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
+    - name: Restore lockfile
+      uses: actions/download-artifact@v3
+      with:
+        name: flake_lock
+    - run: nix build .#nixosConfigurations.cloud.config.system.build.toplevel
+    - run: nix flake check

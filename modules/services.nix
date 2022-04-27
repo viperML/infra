@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   networking.firewall.allowedTCPPorts = [
@@ -18,20 +19,18 @@
     recommendedTlsSettings = true;
   };
 
-  security.acme.acceptTerms = true;
+  security.acme = {
+    acceptTerms = true;
+    certs =
+      builtins.mapAttrs (__: _: {
+        email = "ayatsfer@gmail.com";
+      })
+      config.services.nginx.virtualHosts;
+  };
 
   services.postgresql = {
     enable = true;
   };
-
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    storageDriver = "zfs";
-    extraOptions = "--registry-mirror=https://mirror.gcr.io --add-runtime crun=${pkgs.crun}/bin/crun --default-runtime=crun";
-  };
-
-  users.groups.docker.members = config.users.groups.wheel.members;
 
   systemd = {
     timers.docker-prune = {

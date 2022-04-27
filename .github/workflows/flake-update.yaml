@@ -1,27 +1,30 @@
-name: "Flake update"
+# https://github.com/NobbZ/nixos-config/blob/main/.github/workflows/flake-update.yml
+
+name: "flake-update"
 
 on:
   workflow_dispatch:
-  schedule:
-  - cron: "*-*-01 00:00:00"
+  # TODO
+  # schedule:
+  # - cron: '00 02 1 * *'
 
 jobs:
-  main:
-    name: Main job
+  bump_lock:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.4.0
-    - uses: cachix/install-nix-action@v16
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v17
       with:
-        install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.6.0pre20220122_c9a4ddb/install
+        install_url: https://releases.nixos.org/nix/nix-2.8.0/install
         extra_nix_config: |
           experimental-features = nix-command flakes
+          auto-optimise-store = true
+          extra-substituters = https://nix-community.cachix.org
+          extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
     - run: nix flake update
-    - name: Create Pull request
-      uses: peter-evans/create-pull-request@v3
+      name: Update flake
+    - name: Upload lockfile
+      uses: actions/upload-artifact@v3
       with:
-        token: ${{ secrets.PAT }}
-        title: "GitHub actions: automatic flake update"
-        commit-message: "github actions: flake update"
-        branch: update
-        delete-branch: true
+        name: flake_lock
+        path: flake.lock

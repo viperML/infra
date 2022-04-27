@@ -12,7 +12,6 @@
       proxyPass = "http://localhost:3001/";
     };
   };
-  security.acme.certs."git.ayats.org".email = "ayatsfer@gmail.com";
 
   services.postgresql = {
     authentication = ''

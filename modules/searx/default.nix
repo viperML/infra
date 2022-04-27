@@ -67,7 +67,6 @@ in {
       proxyPass = "http://localhost:${toString ports.oauth2}/";
     };
   };
-  security.acme.certs."searx.ayats.org".email = "ayatsfer@gmail.com";
 
   sops.secrets.searx = {
     sopsFile = ../../.secrets/searx.yaml;

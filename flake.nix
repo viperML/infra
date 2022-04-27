@@ -26,16 +26,21 @@
     };
   };
 
-  outputs = inputs @ {self, ...}: let
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    ...
+  }: let
     supportedSystems = ["x86_64-linux"];
     config = {
       allowUnfree = true;
     };
-    inherit (inputs.nixpkgs.lib) genAttrs attrValues;
+    genSystems = nixpkgs.lib.genAttrs supportedSystems;
+    pkgsFor = system: self.legacyPackages.${system};
   in {
-    nixosConfigurations.cloud = inputs.nixpkgs.lib.nixosSystem rec {
+    nixosConfigurations.cloud = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
-      pkgs = self.legacyPackages.${system};
+      pkgs = pkgsFor system;
       specialArgs = {inherit inputs;};
       modules = [
         ./modules/common.nix
@@ -48,8 +53,10 @@
         ./modules/docker.nix
         ./modules/drone.nix
         ./modules/gitea.nix
-        ./modules/autoUpgrade.nix
+        # TODO
+        # ./modules/autoUpgrade.nix
         ./modules/searx
+        # ./modules/cache.nix
       ];
     };
 
@@ -64,39 +71,22 @@
       };
     };
 
-    devShells."x86_64-linux".default = let
-      system = "x86_64-linux";
-      pkgs = self.legacyPackages.${system};
-      pre-commit = pkgs.writeShellScript "pre-commit" ''
-        find . -name \*.nix -not -name deps.nix -exec alejandra {} \;
-        nix flake check
-        git add .
-      '';
-    in
-      pkgs.mkShell {
-        name = "development-shell";
-        packages = attrValues {
-          inherit
-            (pkgs)
-            sops
-            age
-            ;
-          inherit (inputs.deploy-rs.packages.${system}) deploy-rs;
-          inherit (inputs.nixpkgs-unstable.legacyPackages.${system}) alejandra;
-        };
-        shellHook = ''
-          ln -sf ${pre-commit.outPath} .git/hooks/pre-commit
-        '';
+    devShells = genSystems (system: {
+      default = import ./shell.nix {
+        pkgs = pkgsFor system;
       };
+    });
 
-    legacyPackages = genAttrs supportedSystems (
-      system:
-        import inputs.nixpkgs {
-          inherit system config;
-          overlays = [
-            (import ./overlay)
-          ];
-        }
-    );
+    legacyPackages = genSystems (system:
+      (import nixpkgs {
+        inherit system config;
+        # overlays = [
+        #   (import ./overlay)
+        # ];
+      })
+      // {
+        inherit (inputs.deploy-rs.packages.${system}) deploy-rs;
+        inherit (inputs.nixpkgs-unstable.legacyPackages.${system}) alejandra;
+      });
   };
 }

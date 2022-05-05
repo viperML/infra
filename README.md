@@ -1,3 +1,5 @@
+# **DEPRECATED** New repo is https://github.com/viperML/neoinfra
+
 # viperML/infra
 
 This repository holds the NixOS configuration deployed to a private server.
